@@ -50,7 +50,7 @@ Another way is API request with JSON:
 
 In this example, **binddn** and **bindpass** are credentials of AD User for LDAP search.&#x20;
 
-BTW, in GitOps way you can use this JSON to get the password and user for LDAP search directly from Vault itself, using [GitLab CI Integration](gitlab-integration.md). This is GitLab Job Example:
+BTW, in GitOps way you can use JSON and get the password and user for LDAP search directly from Vault itself, using [GitLab CI Integration](gitlab-integration.md). This is GitLab Job Example:
 
 ```yaml
 update_ldap_config:
