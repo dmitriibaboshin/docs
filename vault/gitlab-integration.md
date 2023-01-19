@@ -87,12 +87,12 @@ vault write auth/jwt/role/gitlabuserloginone - <<ROLE
 }
 ROLE
 
-### Check
+#check
 vault list auth/jwt/role
 vault read auth/jwt/role/gitlabuserloginone
 ```
 
-Create access policy for the role above. This example is access policy with random name (gitlabuserloginone) with rights to read Vault secrets on specified path (with project number for usage in scripting):
+Create an access policy for the role above. This example is an access policy with a random name (gitlabuserloginone) with rights to read Vault secrets on the specified path (with project number for usage in scripting):
 
 ```bash
 vault policy write gitlabuserloginone - <<POLICY
@@ -124,13 +124,13 @@ Next we can use this snippet in Gitlab CI to get (for free! no premium GitLab ne
       }
       JSON
       )
-    #send PAYLOAD with curl to Vault API and get response into VAULT_TOKEN variable
+    #send PAYLOAD with curl to Vault API and get a response into VAULT_TOKEN variable
     - >
       export VAULT_TOKEN="$(curl -ss -X POST ${VAULT_ADDR}/v1/auth/jwt/login
       --header 'Content-Type: application/json; charset=utf-8'
       --data-binary "$PAYLOAD" 
       | jq -r .auth.client_token )"
-    #set counter variable EMPTY_STATUS to control wrong request with empty responses
+    #set counter variable EMPTY_STATUS to control wrong requests with empty responses
     - >
       EMPTY_STATUS=0
     #using VAULT_TOKEN get secrets from Vault API path ${VAULT_ADDR}/v1/gitlabsecrets/data/${CI_PROJECT_ID} into GitLab CI shell
@@ -147,7 +147,7 @@ Next we can use this snippet in Gitlab CI to get (for free! no premium GitLab ne
       curl -ss -H "X-Vault-Token:$VAULT_TOKEN" ${VAULT_ADDR}/v1/gitlabsecrets/data/${CI_PROJECT_ID}/${CI_ENVIRONMENT_NAME} | 
       jq -r '.data.data | with_entries(select(.value | . !=null and . != "")) | to_entries | .[] | .key + "=" + .value'
       )
-    #print error and stop CI if no secrets where retrieved.
+    #print error and stop CI if no secrets were retrieved.
     - > 
       if [ "$EMPTY_STATUS" -eq 2 ]; then { echo "Some Vault variables not set or login name is wrong!"; exit 1; }; fi
 ```
@@ -169,4 +169,4 @@ gitlab_job:
     
 ```
 
-In this example k8s-utils:latest is the custom-build docker image with curl, jq and other utils.
+In this example k8s-utils:latest is the custom-build docker image with curl, jq, and other utils.
