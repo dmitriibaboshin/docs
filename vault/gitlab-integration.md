@@ -12,7 +12,7 @@ Using Vault as a secrets store gives you granular GitLab CI variables rights con
 
 Next pic shows how the secret retrieval to CI process works:
 
-<figure><img src="../../.gitbook/assets/vault-gitlab-ci.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/vault-gitlab-ci.png" alt=""><figcaption></figcaption></figure>
 
 1. The User starts GitLab CI.
 2. GitLab gathers User metadata. Login, email, running branch, etc.
@@ -108,7 +108,7 @@ This role and policy allow for gitlabuserloginone from CI of project 6969 and ma
 
 First, define Vault server address in GitLab Variable VAULT\_ADDR:
 
-<figure><img src="../../.gitbook/assets/gitlab-ci-vault-2.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/gitlab-ci-vault-2.png" alt=""><figcaption></figcaption></figure>
 
 Next we can use this snippet in Gitlab CI to get (for free! no premium GitLab needed) secrets into running CI shell:
 

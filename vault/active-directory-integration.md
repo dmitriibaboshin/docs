@@ -70,14 +70,14 @@ update_ldap_config:
 
 Next, we will add Ldap user we want to give Vault access for and a policy in UI (can be done in CLI\JSON too).
 
-<figure><img src="../../.gitbook/assets/vault-ad-int-1.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/vault-ad-int-1.png" alt=""><figcaption></figcaption></figure>
 
 You should type exact LDAP login name from AD
 
-<figure><img src="../../.gitbook/assets/vault-ad-int-2.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/vault-ad-int-2.png" alt=""><figcaption></figcaption></figure>
 
 In this example, we also typed in the existing Vault policy "**gitops-root**". Policy **gitops-root** is manually created beforehand, and also can be any other policy. This time we added a policy with root rights, so **useruser** will have any rights to config Vault after LDAP login.
 
-<figure><img src="../../.gitbook/assets/vault-ad-int-3.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/vault-ad-int-3.png" alt=""><figcaption></figcaption></figure>
 
 That's it. Now you can log in into Vault UI\CLI with user name **useruser.** VaultSvc account is connection account to look for **useruser.**
