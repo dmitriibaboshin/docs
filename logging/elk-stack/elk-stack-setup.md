@@ -137,4 +137,4 @@ Copy command and run it locally on the Elastic server shell. Confirm with Y. Wai
 
 <figure><img src="../../.gitbook/assets/elk-setup-7.png" alt=""><figcaption></figcaption></figure>
 
-No need to push **Continue enrolling Elastic Agent**. Only if you with to install Agent on another server.
+No need to push **Continue enrolling Elastic Agent**. Only if you wish to install Agent on another server.
