@@ -15,7 +15,7 @@ Let's add ELK repo:
 
 ```bash
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch |sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg
-echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+echo "deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-8.x.list
 
 sudo apt update
 ```
@@ -96,6 +96,28 @@ Now you should be able to load Kibana UI:
 To get this token you should generate it with:
 
 ```bash
+sudo su -
 cd /usr/share/elasticsearch/bin/
-sudo ./elasticsearch-create-enrollment-token -s kibana
+./elasticsearch-create-enrollment-token -s kibana
 ```
+
+Copy this token into Kibana UI above, press **Configure Elastic** and you will get code request:
+
+<figure><img src="../../.gitbook/assets/elk-setup-2.png" alt=""><figcaption></figcaption></figure>
+
+Go back to your terminal and get this code from Kibana logs:
+
+```bash
+cd /usr/share/kibana
+./bin/kibana-verification-code
+Your verification code is:  795 777
+```
+
+When configuration in UI is finished it will ask for user and password:
+
+<figure><img src="../../.gitbook/assets/elk-setup-3.png" alt=""><figcaption></figcaption></figure>
+
+Use generated **elastic** user and password ('**Passssssssswrd**'). That's it. Elastic and Kibana are done. Next is Elastic Agent.
+
+<figure><img src="../../.gitbook/assets/elk-setup-4.png" alt=""><figcaption></figcaption></figure>
+
