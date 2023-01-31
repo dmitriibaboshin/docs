@@ -123,7 +123,7 @@ Use generated **elastic** user and password ('**Passssssssswrd**'). That's it. E
 
 <figure><img src="../../.gitbook/assets/elk-setup-4.png" alt=""><figcaption></figcaption></figure>
 
-#### Install Logstash + Elastic Agent
+#### Install Elastic Agent and Fleet
 
-
+Elastic Agent&#x20;
 
