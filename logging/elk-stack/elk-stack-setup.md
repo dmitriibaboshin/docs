@@ -4,6 +4,8 @@ description: Setting up ELK 8 stack with Elastic Agent, Fleet on Ubuntu 22.
 
 # ELK Stack Setup
 
+#### Install Kibana + Elasticsearch
+
 Install Java first (ELK is Java based):
 
 ```bash
@@ -117,7 +119,11 @@ When configuration in UI is finished it will ask for user and password:
 
 <figure><img src="../../.gitbook/assets/elk-setup-3.png" alt=""><figcaption></figcaption></figure>
 
-Use generated **elastic** user and password ('**Passssssssswrd**'). That's it. Elastic and Kibana are done. Next is Elastic Agent.
+Use generated **elastic** user and password ('**Passssssssswrd**'). That's it. Elastic and Kibana are done. Take a snapshot of your VM. Next is Elastic Agent.
 
 <figure><img src="../../.gitbook/assets/elk-setup-4.png" alt=""><figcaption></figcaption></figure>
+
+#### Install Logstash + Elastic Agent
+
+
 
