@@ -125,5 +125,16 @@ Use generated **elastic** user and password ('**Passssssssswrd**'). That's it. E
 
 #### Install Elastic Agent and Fleet
 
-Elastic Agent&#x20;
+Go to Management > Fleet, push Add Fleet Server. Type in your Random Name and ElasticServer IP (or a hostname):
 
+<figure><img src="../../.gitbook/assets/elk-setup-5.png" alt=""><figcaption></figcaption></figure>
+
+Push **Generate Fleet Server** policy. It will take some time and the result screen will give you shell commands to run:
+
+<figure><img src="../../.gitbook/assets/elk-setup-6.png" alt=""><figcaption></figcaption></figure>
+
+Copy command and run it locally on the Elastic server shell. Confirm with Y. Wait some time and you will get installed and connected Fleet + Agent
+
+<figure><img src="../../.gitbook/assets/elk-setup-7.png" alt=""><figcaption></figcaption></figure>
+
+No need to push **Continue enrolling Elastic Agent**. Only if you with to install Agent on another server.
