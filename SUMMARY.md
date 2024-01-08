@@ -10,3 +10,6 @@
   * [Vault](vault/README.md)
     * [GitLab CI Integration](vault/gitlab-integration.md)
     * [Active Directory Integration](vault/active-directory-integration.md)
+* [BigData](bigdata/README.md)
+  * [Clickhouse](bigdata/clickhouse/README.md)
+    * [Installation. Standalone](bigdata/clickhouse/installation.-standalone.md)
