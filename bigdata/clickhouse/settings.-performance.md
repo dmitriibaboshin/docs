@@ -64,3 +64,94 @@ And check setting in ch client
 SELECT * FROM system.server_settings WHERE name='max_server_memory_usage';
 ```
 
+**Shared Memory.**
+
+Check if kernel has big kernel.shmmax. It is in bytes and must be greater than 1GB.
+
+```bash
+sysctl kernel.shmmax
+```
+
+<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+
+You can change it with&#x20;
+
+```bash
+sudo nano /etc/sysctl.conf
+```
+
+Than add
+
+```
+kernel.shmmax = VALUE
+```
+
+Than apply
+
+```bash
+sudo sysctl -p
+```
+
+
+
+**Tests.**
+
+Let's run some benchmarks on clickhouse.
+
+This test is for default ch binaries on empty machine without ch installed.
+
+Download test and clickhouse binary with a script. Set the db downloaded size from 255 sets to 50
+
+```bash
+#Right now script is written for root and root dir
+sudo su - 
+cd /
+
+#Download and chmod
+wget https://raw.githubusercontent.com/ClickHouse/ClickBench/main/hardware/hardware.sh
+
+#Change size
+sed -i 's/0..255/0..50/g' hardware.sh
+
+#Run
+chmod +x hardware.sh
+./hardware.sh
+```
+
+The output should be like this. If no, check paths.
+
+<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+
+No we will modify test to use installed and tuned ch (therefor you should install it now).
+
+Comment this sections in hardware.sh and change paths to use service and not local binary.
+
+```bash
+#clickhouse server >server.log 2>&1 &
+#PID=$!
+#
+#function finish {
+#    kill $PID
+#    wait
+#}
+#trap finish EXIT
+```
+
+Paths with sed
+
+```bash
+sed -i 's|./clickhouse |clickhouse |g' hardware.sh;
+
+sed -i 's|/clickhouse-benchmark/server\.log|/var/log/clickhouse-server/clickhouse-server.log|g' hardware.sh;
+
+#Again change sets size if you downloaded fresh script
+sed -i 's/0..255/0..50/g' hardware.sh
+```
+
+And run again
+
+```bash
+chmod +x hardware.sh
+./hardware.sh
+```
+
