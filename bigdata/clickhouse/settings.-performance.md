@@ -94,11 +94,11 @@ sudo sysctl -p
 
 
 
-**Tests.**
+**Tests and compare.**
 
 Let's run some benchmarks on clickhouse.
 
-This test is for default ch binaries on empty machine without ch installed.
+This first test is for default ch binaries on empty machine without ch installed.
 
 Download test and clickhouse binary with a script. Set the db downloaded size from 255 sets to 50
 
@@ -122,7 +122,7 @@ The output should be like this. If no, check paths.
 
 <figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
-No we will modify test to use installed and tuned ch (therefor you should install it now).
+Now we will modify test to use installed and tuned ch (therefore you should install it now and use tweaks above).
 
 Comment this sections in hardware.sh and change paths to use service and not local binary.
 
@@ -155,3 +155,4 @@ chmod +x hardware.sh
 ./hardware.sh
 ```
 
+Compare with new results
