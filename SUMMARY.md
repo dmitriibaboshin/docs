@@ -13,4 +13,4 @@
 * [BigData](bigdata/README.md)
   * [Clickhouse](bigdata/clickhouse/README.md)
     * [Installation. Standalone](bigdata/clickhouse/installation.-standalone.md)
-    * [Settings. Performance](bigdata/clickhouse/settings.-performance.md)
+    * [Settings. Initial](bigdata/clickhouse/settings.-initial.md)

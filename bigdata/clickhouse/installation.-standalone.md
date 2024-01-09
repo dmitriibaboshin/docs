@@ -12,20 +12,21 @@ Deps and Repo
 
 ```bash
 #Check if needed CPU features are supported.
-grep -q sse4_2 /proc/cpuinfo && echo "SSE 4.2 supported" || echo "SSE 4.2 not supported"
+grep -q sse4_2 /proc/cpuinfo && echo "SSE 4.2 supported" || echo "SSE 4.2 not supported";
 
 #Install deps
-sudo apt-get install -y apt-transport-https ca-certificates dirmngr
+sudo apt-get install -y apt-transport-https ca-certificates dirmngr;
 
 #Install keys for Repo
-GNUPGHOME=$(mktemp -d)
-sudo GNUPGHOME="$GNUPGHOME" gpg --no-default-keyring --keyring /usr/share/keyrings/clickhouse-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8919F6BD2B48D754
-sudo rm -rf "$GNUPGHOME"
-sudo chmod +r /usr/share/keyrings/clickhouse-keyring.gpg
+GNUPGHOME=$(mktemp -d);
+sudo GNUPGHOME="$GNUPGHOME" gpg --no-default-keyring --keyring /usr/share/keyrings/clickhouse-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 8919F6BD2B48D754;
+sudo rm -rf "$GNUPGHOME";
+sudo chmod +r /usr/share/keyrings/clickhouse-keyring.gpg;
 
 #Add repo
 echo "deb [signed-by=/usr/share/keyrings/clickhouse-keyring.gpg] https://packages.clickhouse.com/deb stable main" | sudo tee \
     /etc/apt/sources.list.d/clickhouse.list
+    
 ```
 
 Installation
