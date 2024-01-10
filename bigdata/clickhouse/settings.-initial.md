@@ -252,8 +252,9 @@ Paste the following content
         <log>/mnt/disks/sdb/clickhouse_logs/clickhouse-server.log</log>
         <errorlog>/mnt/disks/sdb/clickhouse_logs/clickhouse-server.err.log</errorlog>
         <!-- Consider limits for DBs on disk to have this logs space available -->
+        <!-- Size is for each log type-->
         <size>500M</size>
-        <count>1</count>
+        <count>3</count>
         <!-- Comment this if you want automatic console output (when run as not daemon) -->
         <console>0</console>
         <!-- Enable Json log format. Comment <formatting> to disable -->
