@@ -112,11 +112,11 @@ Add this content
 <!-- Define disk to be used -->
     <disks>
         <default> <!-- Main Disk -->
-            <keep_free_space_bytes>1073741824</keep_free_space_bytes>
+            <keep_free_space_bytes>2147483648</keep_free_space_bytes>
         </default>
         <sdb> <!-- Second Disk -->
             <path>/mnt/disks/sdb/clickhouse/</path>
-            <keep_free_space_bytes>1073741824</keep_free_space_bytes>
+            <keep_free_space_bytes>2147483648</keep_free_space_bytes>
         </sdb>
     </disks>
     
