@@ -232,7 +232,51 @@ New table is on another disk
 
 <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-**Tests and compare.**
+**Logging Setup**
+
+Create logging config and dir
+
+```bash
+sudo nano /etc/clickhouse-server/config.d/logging_settings.xml;
+mkdir /mnt/disks/sdb/clickhouse_logs;
+chmod 755 /mnt/disks/sdb/clickhouse_logs;
+```
+
+Paste the following content
+
+```xml
+<clickhouse>
+    <logger>
+        <!-- Trace is maximum prod level supported -->
+        <level>trace</level>
+        <log>/mnt/disks/sdb/clickhouse_logs/clickhouse-server.log</log>
+        <errorlog>/mnt/disks/sdb/clickhouse_logs/clickhouse-server.err.log</errorlog>
+        <!-- Consider limits for DBs on disk to have this logs space available -->
+        <size>500M</size>
+        <count>1</count>
+        <!-- Comment this if you want automatic console output (when run as not daemon) -->
+        <console>0</console>
+        <!-- Enable Json log format. Comment <formatting> to disable -->
+        <formatting>
+            <type>json</type>
+            <names>
+            <!-- Comment not needed sections -->
+                <date_time>date_time</date_time>
+                <thread_name>thread_name</thread_name>
+                <thread_id>thread_id</thread_id>
+                <level>level</level>
+                <query_id>query_id</query_id>
+                <logger_name>logger_name</logger_name>
+                <message>message</message>
+                <source_file>source_file</source_file>
+                <source_line>source_line</source_line>
+            </names>
+        </formatting>
+    </logger>
+</clickhouse>
+```
+
+**Performance Tests.**
 
 Let's run some benchmarks on clickhouse.
 
