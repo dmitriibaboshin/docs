@@ -285,8 +285,6 @@ Misc
 </clickhouse>
 ```
 
-
-
 **Additional Users.**
 
 By default there is superuser default. But. You can create roles and new users. The old way is to do it with users.d/file method. This files are constantly monitored by clickhouse and applied. You can do the same by SQL commands inside clickhouse client. But files have priority.
