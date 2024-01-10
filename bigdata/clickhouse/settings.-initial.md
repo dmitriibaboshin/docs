@@ -248,7 +248,7 @@ Paste the following content
 <clickhouse>
     <logger>
         <!-- Trace is maximum prod level supported -->
-        <level>trace</level>
+        <level>warning</level>
         <log>/mnt/disks/sdb/clickhouse_logs/clickhouse-server.log</log>
         <errorlog>/mnt/disks/sdb/clickhouse_logs/clickhouse-server.err.log</errorlog>
         <!-- Consider limits for DBs on disk to have this logs space available -->
