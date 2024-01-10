@@ -277,6 +277,189 @@ Paste the following content
 </clickhouse>
 ```
 
+Misc
+
+```xml
+<clickhouse>
+    <timezone>Europe/Moscow</timezone>
+</clickhouse>
+```
+
+
+
+**Additional Users.**
+
+By default there is superuser default. But. You can create roles and new users. The old way is to do it with users.d/file method. This files are constantly monitored by clickhouse and applied. You can do the same by SQL commands inside clickhouse client. But files have priority.
+
+Create file
+
+```bash
+sudo nano /etc/clickhouse-server/users.d/robocop.xml;
+```
+
+Generate password
+
+```bash
+PASSWORD=$(base64 < /dev/urandom | head -c8); echo "$PASSWORD"; echo -n "$PASSWORD" | sha256sum | tr -d '-'
+```
+
+You will get random password and its hash
+
+<figure><img src="../../.gitbook/assets/image (5).png" alt=""><figcaption></figcaption></figure>
+
+And pass this content and use hash to hide password in config.
+
+```xml
+<clickhouse>
+<users>
+    <!-- If user name was not specified, 'default' user is used. -->
+    <robocop>
+        <password_sha256_hex>09c3ce5c8cac4081addadf257b27bc201f18cb519a12a6ffbea9911b3e85acb1</password_sha256_hex>
+        <!-- Enable this user management with SQL commands -->
+        <access_management>1</access_management>
+        <!-- Allow user to connect from any network -->
+        <networks incl="networks" replace="replace">
+        <ip>::/0</ip>
+        </networks>
+
+        <!-- Create profile with non default clickhouse settings -->
+        <profile>robots_profile</profile>
+
+        <!-- Limit query amounts etc. -->
+        <quota>robots_quota</quota>
+
+        <default_database>robots_db</default_database>
+
+        <!-- Allow only rows with id=1000 for database and table -->
+        <databases>
+            <robots_db>
+                <test_table>
+                    <filter>id = 1000</filter>
+                </test_table>
+            </robots_db>
+        </databases>
+        
+        <!-- Rights settings. This one is admin -->
+        <grants>
+            <query>GRANT SELECT ON system.*</query>
+        </grants>
+        
+    </robocop>
+    <!-- Other users settings, same as block above -->
+</users>
+</clickhouse>
+```
+
+Now create profiles and quota files
+
+```bash
+sudo nano /etc/clickhouse-server/users.d/robots_profile.xml;
+```
+
+Content
+
+```xml
+<clickhouse>
+<profiles>
+    <!-- Default settings. -->
+    <default>
+    </default>
+
+    <!-- Profile that allows only read queries. -->
+    <readonly>
+        <readonly>1</readonly>
+    </readonly>
+
+    <robots_profile>
+        <max_rows_to_read>1000000000</max_rows_to_read>
+        <max_bytes_to_read>100000000000</max_bytes_to_read>
+
+        <max_rows_to_group_by>1000000</max_rows_to_group_by>
+        <group_by_overflow_mode>any</group_by_overflow_mode>
+
+        <max_rows_to_sort>1000000</max_rows_to_sort>
+        <max_bytes_to_sort>1000000000</max_bytes_to_sort>
+
+        <max_result_rows>100000</max_result_rows>
+        <max_result_bytes>100000000</max_result_bytes>
+        <result_overflow_mode>break</result_overflow_mode>
+
+        <max_execution_time>600</max_execution_time>
+        <min_execution_speed>1000000</min_execution_speed>
+        <timeout_before_checking_execution_speed>15</timeout_before_checking_execution_speed>
+
+        <max_columns_to_read>25</max_columns_to_read>
+        <max_temporary_columns>100</max_temporary_columns>
+        <max_temporary_non_const_columns>50</max_temporary_non_const_columns>
+
+        <max_subquery_depth>2</max_subquery_depth>
+        <max_pipeline_depth>25</max_pipeline_depth>
+        <max_ast_depth>50</max_ast_depth>
+        <max_ast_elements>100</max_ast_elements>
+
+        <max_sessions_for_user>4</max_sessions_for_user>
+        <readonly>1</readonly>
+    </robots_profile>
+</profiles>
+</clickhouse>
+```
+
+Quotas file
+
+```bash
+sudo nano /etc/clickhouse-server/users.d/robots_quota.xml;
+```
+
+Content
+
+```xml
+<clickhouse>
+<quotas>
+    <!-- Name of quota. -->
+    <default>
+        <!-- Limits for time interval. You could specify many intervals with different limits. -->
+        <interval>
+            <!-- Length of interval. -->
+            <duration>3600</duration>
+
+            <!-- No limits. Just calculate resource usage for time interval. -->
+            <queries>0</queries>
+            <errors>0</errors>
+            <result_rows>0</result_rows>
+            <read_rows>0</read_rows>
+            <execution_time>0</execution_time>
+        </interval>
+    </default>
+
+    <robots_quota>
+    <!-- Limit load from user for 1h and 24h -->
+        <interval>
+            <duration>3600</duration>
+
+            <queries>1000</queries>
+            <query_selects>100</query_selects>
+            <query_inserts>100</query_inserts>
+            <errors>100</errors>
+            <result_rows>1000000000</result_rows>
+            <read_rows>100000000000</read_rows>
+            <execution_time>900</execution_time>
+        </interval>
+        <interval>
+            <duration>86400</duration>
+
+            <queries>10000</queries>
+            <query_selects>10000</query_selects>
+            <query_inserts>10000</query_inserts>
+            <errors>1000</errors>
+            <result_rows>5000000000</result_rows>
+            <read_rows>500000000000</read_rows>
+            <execution_time>7200</execution_time>
+        </interval>
+    </robots_quota>
+</quotas>
+</clickhouse>
+```
+
 **Performance Tests.**
 
 Let's run some benchmarks on clickhouse.
