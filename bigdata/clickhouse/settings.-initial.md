@@ -101,6 +101,9 @@ For that we should create disk policy.
 Create additional config
 
 ```bash
+sudo mkdir -p /mnt/disks/sdb/clickhouse
+sudo chmod -R 755 /mnt/disks/sdb/clickhouse
+sudo chown -R clickhouse:root /mnt/disks/sdb/clickhouse
 sudo nano /etc/clickhouse-server/config.d/disks_settings.xml
 ```
 
@@ -234,9 +237,11 @@ New table is on another disk
 Create logging config and dir
 
 ```bash
+sudo mkdir -p /mnt/disks/sdb/clickhouse_logs
+sudo chmod -R 755 /mnt/disks/sdb/clickhouse_logs
+sudo chown -R clickhouse:root /mnt/disks/sdb/clickhouse_logs
+
 sudo nano /etc/clickhouse-server/config.d/logging_settings.xml;
-mkdir /mnt/disks/sdb/clickhouse_logs;
-chmod 755 /mnt/disks/sdb/clickhouse_logs;
 ```
 
 Paste the following content
