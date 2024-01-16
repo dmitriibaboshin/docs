@@ -74,7 +74,7 @@ sysctl kernel.shmmax
 
 <figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
 
-You can change it with&#x20;
+You can change it with
 
 ```bash
 sudo nano /etc/sysctl.conf
@@ -277,11 +277,22 @@ Paste the following content
 </clickhouse>
 ```
 
-Misc
+**Misc.**
+
+Create other settings.
+
+```bash
+sudo nano /etc/clickhouse-server/config.d/misc_settings.xml
+```
+
+Put this in
 
 ```xml
 <clickhouse>
+    <!-- Change time zone for time stamps-->
     <timezone>Europe/Moscow</timezone>
+    <!-- Enable listening external connections-->
+    <listen_host>0.0.0.0</listen_host>
 </clickhouse>
 ```
 
