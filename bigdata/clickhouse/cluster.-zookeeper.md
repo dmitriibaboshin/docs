@@ -153,3 +153,16 @@ You can now connect with client CLI and check paths in db
 
 <figure><img src="../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
 
+**Backup**
+
+So, we now have single node cluster running. Backup is not build in into Zookeeper. You can only copy data (snapshots dir) and transaction logs directories with cron. But it is not recommended practice due non consistent nature of files.
+
+In the event of total Zookeeper failure you can restore content from Clickhouse server side with&#x20;
+
+```sql
+SYSTEM RESTORE REPLICA 
+```
+
+Also you can add more nodes with participant or observer roles to the cluster.&#x20;
+
+Observer nodes are read only always. They pass-through write requests to current leader among participants. Thus Zookeeper can't scale writes. Only reads.
