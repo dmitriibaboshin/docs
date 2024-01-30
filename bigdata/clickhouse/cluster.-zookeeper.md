@@ -44,4 +44,12 @@ chown zk:zk -R /opt/zookeeper
 
 #Utils add to bash
 echo 'export PATH="/opt/zookeeper/bin:$PATH"' >> /home/zk/.bashrc
+
+#Install JDK 8,11 or 12
+apt update && apt install default-jre -y
+
 ```
+
+Check Java
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
