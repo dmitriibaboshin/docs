@@ -48,8 +48,61 @@ echo 'export PATH="/opt/zookeeper/bin:$PATH"' >> /home/zk/.bashrc
 #Install JDK 8,11 or 12
 apt update && apt install default-jre -y
 
+#Set Heap size at least 3GB
+echo 'export _JAVA_OPTIONS=-Xmx3096m' >> /home/zk/.bashrc
+
 ```
 
 Check Java
 
 <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+**Settings**
+
+First, create myid file with node number. In single node it is  = 1.
+
+```bash
+sudo su zk
+
+echo '1' > /data/zookeeper/data/myid
+```
+
+Now paste settings into /opt/zookeeper/conf/zoo.cfg file.&#x20;
+
+```bash
+#Enable Web Console
+admin.enableServer=true
+#Allow to change this config and expand cluster
+standaloneEnabled=false
+#Allow cluster config with API and CLI
+reconfigEnabled=true
+
+#Snapshots(db) files folder
+dataDir=/data/zookeeper/data
+#Transaction logs
+dataLogDir=/data/zookeeper/datalogs
+#Dynamic part of this config. With server nodes
+dynamicConfigFile=/opt/zookeeper/conf/zoo.cfg.dynamic
+
+#Snapshots to retain
+autopurge.snapRetainCount=5
+#Snaphots purge interval in hours (more than 5 above)
+autopurge.purgeInterval=24
+#Enable snapshot compression
+snapshot.compression.method=gz
+
+#Cluster follower(observer) sync time in ticks
+syncLimit=10
+#Ticks lengts in milliseconds
+tickTime=2000
+#Leader connect to timeout in ticks
+initLimit=10
+#Enable unlimited attempts to connect to other nodes
+electionPortBindRetry=0
+#Disable ACL to boost server speed
+skipACL=yes
+
+#Enable Prometheus metrics port
+metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider
+metricsProvider.httpPort=7070
+```
