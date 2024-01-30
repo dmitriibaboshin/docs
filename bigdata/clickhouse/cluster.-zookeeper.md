@@ -171,11 +171,13 @@ Observer nodes are read only always. They pass-through write requests to current
 
 To make this cluster 3 nodes or more (odd number is needed for quorum) you should create 2 more servers with same configs. The only difference would be myid file and zoo.cfg.dynamic file.
 
-For myid file (on respective server) you should paste an number higher than first server and so far. 2 for second server and 3 for third.
+For myid file (on respective server) you should paste a number higher than first server and so far. 2 for second server and 3 for third in our case
 
-Into zoo.cfg.dynamic file you should pass all 3 server strings. This file should be the same on each node. You can change it though if you want to force some node to be Observer or change ports.
+Into zoo.cfg.dynamic file you should pass all 3 server strings. This file should be the same on each node. You can change it though if you want to force some node to be Observer or you change ports to non default.
 
-Therefore
+Therefore for 3 nodes cluster:
+
+
 
 Server\_1&#x20;
 
@@ -189,6 +191,8 @@ server.2=srv-pve-p-u-otuskeeper-1:2888:3888:observer;2181
 server.3=srv-pve-p-u-otuskeeper-2:2888:3888:observer;2181
 ```
 
+
+
 Server\_2
 
 Number in myid file is 2
@@ -200,6 +204,8 @@ server.1=srv-pve-p-u-otuskeeper-0:2888:3888:participant;2181
 server.2=srv-pve-p-u-otuskeeper-1:2888:3888:observer;2181
 server.3=srv-pve-p-u-otuskeeper-2:2888:3888:observer;2181
 ```
+
+
 
 Server\_3
 
@@ -215,7 +221,7 @@ server.3=srv-pve-p-u-otuskeeper-2:2888:3888:observer;2181
 
 In this configuration we have participant (leader) node with write and reads and 2 read nodes.
 
-You can change this file on all nodes to make cluster with auto election of leader if current leader node is down
+You can change this file on all nodes to make cluster with auto selection of leader if current leader node is down
 
 ```
 server.1=srv-pve-p-u-otuskeeper-0:2888:3888:participant;2181
