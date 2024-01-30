@@ -106,3 +106,50 @@ skipACL=yes
 metricsProvider.className=org.apache.zookeeper.metrics.prometheus.PrometheusMetricsProvider
 metricsProvider.httpPort=7070
 ```
+
+Now add dynamic node config /opt/zookeeper/conf/zoo.cfg.dynamic
+
+```
+server.1=srv-pve-p-u-otuskeeper-0:2888:3888:participant;2181
+```
+
+Which means
+
+* server.1 - same number as in myid file
+* srv-pve-p-u-otuskeeper-0 - hostname
+* 2888:3888  - cluster communication ports
+* participant - role of node in cluster
+* 2181 - port for client connections (such as Clickhouse Cluster)
+
+Now we should create SystemD service file /etc/systemd/system/zk.service
+
+```ini
+[Unit]
+Description=Zookeeper Daemon
+Documentation=http://zookeeper.apache.org
+Requires=network.target
+After=network.target
+
+[Service]    
+Type=forking
+WorkingDirectory=/opt/zookeeper
+User=zk
+Group=zk
+ExecStart=/opt/zookeeper/bin/zkServer.sh start /opt/zookeeper/conf/zoo.cfg
+ExecStop=/opt/zookeeper/bin/zkServer.sh stop /opt/zookeeper/conf/zoo.cfg
+ExecReload=/opt/zookeeper/bin/zkServer.sh restart /opt/zookeeper/conf/zoo.cfg
+TimeoutSec=30
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+```
+
+Now start the service and check the status
+
+<figure><img src="../../.gitbook/assets/image (7).png" alt=""><figcaption></figcaption></figure>
+
+You can now connect with client CLI and check paths in db
+
+<figure><img src="../../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+
