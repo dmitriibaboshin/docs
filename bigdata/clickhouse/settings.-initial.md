@@ -10,7 +10,7 @@ sudo systemctl show clickhouse-server.service |grep NOFILE
 
 As you can see
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 It can be increased by service edit if it is less than 100000
 
@@ -230,7 +230,7 @@ WHERE table LIKE 'trips%'
 
 New table is on another disk
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Logging Setup**
 

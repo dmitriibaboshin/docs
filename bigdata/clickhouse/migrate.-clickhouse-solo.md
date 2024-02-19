@@ -18,9 +18,8 @@ wget -O- https://zenodo.org/records/7923702 | grep -oP 'https://zenodo.org/recor
 
 Now create table
 
-```sql
-CREATE TABLE opensky
-(
+<pre class="language-sql"><code class="lang-sql"><strong>CREATE TABLE opensky
+</strong>(
     callsign String,
     number String,
     icao24 String,
@@ -38,7 +37,7 @@ CREATE TABLE opensky
     longitude_2 Float64,
     altitude_2 Float64
 ) ENGINE = MergeTree ORDER BY (origin, destination, callsign);
-```
+</code></pre>
 
 Import data (you'll need 32GB RAM on clickhouse server).
 
@@ -59,3 +58,53 @@ SELECT formatReadableSize(total_bytes) FROM system.tables WHERE name = 'opensky'
 Results
 
 <figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
+
+#### Method 1. Select from Remote
+
+This method is good when you want compatibility between different clickhouse version, have small table sizes and reliable connection. Remember that clickhouse does not have atomic transactions.
+
+First you should create tables on your cluster. Replicated and Distributed.
+
+```sql
+#Check that remote solo click node is available
+SELECT count() FROM remote('srv-pve-p-u-clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
+
+#Create tables
+CREATE TABLE IF NOT EXISTS default.opensky_local ON CLUSTER sharded_replicas (
+    callsign String,
+    number String,
+    icao24 String,
+    registration String,
+    typecode String,
+    origin String,
+    destination String,
+    firstseen DateTime,
+    lastseen DateTime,
+    day DateTime,
+    latitude_1 Float64,
+    longitude_1 Float64,
+    altitude_1 Float64,
+    latitude_2 Float64,
+    longitude_2 Float64,
+    altitude_2 Float64
+    ) ENGINE = ReplicatedMergeTree ('/clickhouse/tables/{cluster}/{shard}/{database}/{table}', '{replica}')
+ORDER BY (origin, destination, callsign);
+
+CREATE TABLE IF NOT EXISTS default.opensky ON CLUSTER sharded_replicas
+AS default.opensky_local
+ENGINE = Distributed(sharded_replicas, default, opensky_local, rand());
+```
+
+Next. From one node of a clickhouse cluster run
+
+```sql
+INSERT INTO default.opensky SELECT * FROM remote('srv-pve-p-u-clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
+```
+
+Now check that you data is loaded and properly sharded. Run on cluster node
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+On my 10GBit channel migration took about 80 seconds and 18GB traffic.&#x20;
+
+You can see above that in distributed table has the same records number as in solo server. But in replicated table number is about a half of that. As should it be when data is sharded onto 2 replica sets.
