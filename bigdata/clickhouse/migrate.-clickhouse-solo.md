@@ -118,3 +118,5 @@ If you have unstable connection you can change default timeout from 300 sec to 1
 ```sql
 INSERT INTO default.opensky SETTINGS receive_timeout=3600 SELECT * FROM remote('srv-pve-p-u-big3clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
 ```
+
+Clickhouse will continue to download data if connection is restored in this time period.
