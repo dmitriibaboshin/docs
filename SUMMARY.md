@@ -17,3 +17,4 @@
     * [Settings. Initial](bigdata/clickhouse/settings.-initial.md)
     * [MergeTree Engine. Storage Structure](bigdata/clickhouse/mergetree-engine.-storage-structure.md)
     * [Cluster. Clickhouse](bigdata/clickhouse/cluster.-clickhouse.md)
+    * [Migrate. Clickhouse Solo](bigdata/clickhouse/migrate.-clickhouse-solo.md)
