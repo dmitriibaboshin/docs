@@ -55,7 +55,7 @@ echo 'export _JAVA_OPTIONS=-Xmx3096m' >> /home/zk/.bashrc
 
 Check Java
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Settings**
 

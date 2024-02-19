@@ -67,7 +67,7 @@ First you should create tables on your cluster. Replicated and Distributed.
 
 ```sql
 #Check that remote solo click node is available
-SELECT count() FROM remote('srv-pve-p-u-clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
+SELECT count() FROM remote('srv-pve-p-u-big3clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
 
 #Create tables
 CREATE TABLE IF NOT EXISTS default.opensky_local ON CLUSTER sharded_replicas (
@@ -103,8 +103,12 @@ INSERT INTO default.opensky SELECT * FROM remote('srv-pve-p-u-clicksolo-0.tstlab
 
 Now check that you data is loaded and properly sharded. Run on cluster node
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 On my 10GBit channel migration took about 80 seconds and 18GB traffic.&#x20;
 
 You can see above that in distributed table has the same records number as in solo server. But in replicated table number is about a half of that. As should it be when data is sharded onto 2 replica sets.
+
+BTW, if your connection will drop permanently or you will press CTRL C, you will have some rows copied anyway.&#x20;
+
+<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
