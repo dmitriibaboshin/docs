@@ -112,3 +112,9 @@ You can see above that in distributed table has the same records number as in so
 BTW, if your connection will drop permanently or you will press CTRL C, you will have some rows copied anyway.&#x20;
 
 <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+If you have unstable connection you can change default timeout from 300 sec to 1h in query like this
+
+```sql
+INSERT INTO default.opensky SETTINGS receive_timeout=3600 SELECT * FROM remote('srv-pve-p-u-big3clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
+```
