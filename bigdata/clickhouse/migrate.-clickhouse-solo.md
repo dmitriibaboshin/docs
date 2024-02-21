@@ -62,15 +62,15 @@ Results
 If you want to make migration consistent, you should block client SQL writes onto solo server. For that you should set "readonly" flag for corresponding SQL users. (be careful with default, it also used in dist tables and replicas). Therefore
 
 ```sql
-#Make user readonly
+#Make user readonly for new sessions
 ALTER USER ch_user ON CLUSTER ch_cluster SETTINGS readonly=1;
 
-#Set Idle connection timeout 1 min. Default 1h. Don't forget to set back afterwards.
-ALTER USER ch_user ON CLUSTER ch_cluster SETTINGS idle_connection_timeout=60;
+#Optional. Set Idle connection timeout 1 sec. For new sessions. Rollback after
+ALTER USER ch_user ON CLUSTER ch_cluster SETTINGS idle_connection_timeout=1;
 
 ```
 
-Now you should wait while user sessions are closed and proceed.
+Now you should wait 1h idle while user sessions are closed and proceed.&#x20;
 
 #### Method 1. Select from Remote
 
