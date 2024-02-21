@@ -59,6 +59,19 @@ Results
 
 <figure><img src="../../.gitbook/assets/image (10).png" alt=""><figcaption></figcaption></figure>
 
+If you want to make migration consistent, you should block client SQL writes onto solo server. For that you should set "readonly" flag for corresponding SQL users. (be careful with default, it also used in dist tables and replicas). Therefore
+
+```sql
+#Make user readonly
+ALTER USER ch_user ON CLUSTER ch_cluster SETTINGS readonly=1;
+
+#Set Idle connection timeout 1 min. Default 1h. Don't forget to set back afterwards.
+ALTER USER ch_user ON CLUSTER ch_cluster SETTINGS idle_connection_timeout=60;
+
+```
+
+Now you should wait while user sessions are closed and proceed.
+
 #### Method 1. Select from Remote
 
 This method is good when you want compatibility between different clickhouse version, have small table sizes and reliable connection. Remember that clickhouse does not have atomic transactions.
