@@ -44,9 +44,6 @@ Now you should change 3 sections in config with your data, assuming you CH is de
 general:
     remote_storage: s3
     ...
-    backups_to_keep_local: 1
-    backups_to_keep_remote: 5
-    ...
 clickhouse:
     username: default
     password: ""
