@@ -109,7 +109,7 @@ Full backup script
 BACKUP_NAME=full_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
 
 clickhouse-backup \
-create-remote \
+create_remote \
 $BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 exit_code=$?
@@ -128,7 +128,7 @@ And incremental
 BACKUP_NAME=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
 
 clickhouse-backup \
-create-remote \
+create_remote \
 --diff-from-remote=full_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')") \
 $BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
@@ -140,3 +140,29 @@ if [[ $exit_code != 0 ]]; then
 fi
 
 ```
+
+Now create crontab like this&#x20;
+
+```bash
+#Full backup
+0 0 * 1 * /usr/bin/local/full_week_1.sh
+#Incremental backup
+0 0 * 2-7 * /usr/bin/local/incremental_week_1.sh
+
+#Full backup
+0 0 * 8 * /usr/bin/local/full_week_2.sh
+#Incremental backup
+0 0 * 9-14 * /usr/bin/local/incremental_week_2.sh
+
+#Full backup
+0 0 * 15 * /usr/bin/local/full_week_3.sh
+#Incremental backup
+0 0 * 16-21 * /usr/bin/local/incremental_week_3.sh
+
+#Full backup last weeks
+0 0 * 22 * /usr/bin/local/full_week_4.sh
+#Incremental backup
+0 0 * 23-31 * /usr/bin/local/incremental_week_4.sh
+```
+
+Change week number in script accordingly
