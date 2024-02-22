@@ -10,7 +10,7 @@ sudo systemctl show clickhouse-server.service |grep NOFILE
 
 As you can see
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 It can be increased by service edit if it is less than 100000
 
@@ -72,7 +72,7 @@ Check if kernel has big kernel.shmmax. It is in bytes and must be greater than 1
 sysctl kernel.shmmax
 ```
 
-<figure><img src="../../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (2) (1).png" alt=""><figcaption></figcaption></figure>
 
 You can change it with
 
@@ -140,7 +140,7 @@ FROM system.disks
 
 Now CH now about disks
 
-<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4) (1).png" alt=""><figcaption></figcaption></figure>
 
 Create Policy
 
@@ -230,7 +230,7 @@ WHERE table LIKE 'trips%'
 
 New table is on another disk
 
-<figure><img src="../../.gitbook/assets/image (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 **Logging Setup**
 
@@ -497,7 +497,7 @@ chmod +x hardware.sh
 
 The output should be like this. If no, check paths.
 
-<figure><img src="../../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (3) (1).png" alt=""><figcaption></figcaption></figure>
 
 Now we will modify test to use installed and tuned ch (therefore you should install it now and use tweaks above).
 

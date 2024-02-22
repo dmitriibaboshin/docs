@@ -16,5 +16,6 @@
     * [Installation. Standalone](bigdata/clickhouse/installation.-standalone.md)
     * [Settings. Initial](bigdata/clickhouse/settings.-initial.md)
     * [MergeTree Engine. Storage Structure](bigdata/clickhouse/mergetree-engine.-storage-structure.md)
-    * [Cluster. Clickhouse](bigdata/clickhouse/cluster.-clickhouse.md)
-    * [Migrate. Clickhouse Solo](bigdata/clickhouse/migrate.-clickhouse-solo.md)
+    * [Cluster. Shards + Replicas](bigdata/clickhouse/cluster.-shards-+-replicas.md)
+    * [Migrate. From Solo](bigdata/clickhouse/migrate.-from-solo.md)
+    * [Backup. From Solo](bigdata/clickhouse/backup.-from-solo.md)

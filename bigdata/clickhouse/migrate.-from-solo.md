@@ -4,7 +4,7 @@ description: >-
   host to running cluster.
 ---
 
-# Migrate. Clickhouse Solo
+# Migrate. From Solo
 
 First, let us upload big data set onto our test solo server.
 
@@ -116,7 +116,7 @@ INSERT INTO default.opensky SELECT * FROM remote('srv-pve-p-u-clicksolo-0.tstlab
 
 Now check that you data is loaded and properly sharded. Run on cluster node
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 On my 10GBit channel migration took about 80 seconds and 18GB traffic.&#x20;
 
@@ -124,7 +124,7 @@ You can see above that in distributed table has the same records number as in so
 
 BTW, if your connection will drop permanently or you will press CTRL C, you will have some rows copied anyway.&#x20;
 
-<figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 If you have unstable connection you can change default timeout from 5 min to 15min in query like this
 
