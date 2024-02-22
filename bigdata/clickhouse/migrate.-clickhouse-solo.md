@@ -126,10 +126,10 @@ BTW, if your connection will drop permanently or you will press CTRL C, you will
 
 <figure><img src="../../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
-If you have unstable connection you can change default timeout from 300 sec to 1h in query like this
+If you have unstable connection you can change default timeout from 5 min to 15min in query like this
 
 ```sql
-INSERT INTO default.opensky SETTINGS receive_timeout=3600 SELECT * FROM remote('srv-pve-p-u-big3clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
+INSERT INTO default.opensky SETTINGS receive_timeout=900 SELECT * FROM remote('srv-pve-p-u-big3clicksolo-0.tstlab.xyz', default, opensky, 'default', '');
 ```
 
 Clickhouse will continue to download data if connection is restored in this time period.
