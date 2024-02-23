@@ -94,7 +94,7 @@ You can delete either or set limits in clickhouse config. 0 is unlim
 
 ```yaml
     backups_to_keep_local: -1
-    backups_to_keep_remote: 18
+    backups_to_keep_remote: 31
 ```
 
 Now let's create cron jobs for full backups and incremental.&#x20;
@@ -103,36 +103,46 @@ Full backup script
 
 ```bash
 #!/bin/bash
-BACKUP_NAME=full_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
+BACKUP_NAME=week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
 
+#Full backup
 clickhouse-backup \
 create_remote \
-$BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+full_$BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
+#RBAC rights backup (might be empty if default)
+clickhouse-backup \
+create_remote \
+rbac_$BACKUP_NAME --rbac >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
+#Server configs backup
+clickhouse-backup \
+create_remote \
+config_$BACKUP_NAME --config >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 exit_code=$?
 
 if [[ $exit_code != 0 ]]; then
-  echo "clickhouse-backup create-remote $BACKUP_NAME FAILED and return $exit_code exit code"
+  echo "clickhouse-backup create_remote $BACKUP_NAME FAILED and return $exit_code exit code"
   exit $exit_code
 fi
-
 ```
 
 And incremental
 
 ```bash
 #!/bin/bash
-BACKUP_NAME=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
+BACKUP_NAME_DIFF=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")_$(date -u +%Y-%m-%dT%H-%M-%S)
 
 clickhouse-backup \
 create_remote \
 --diff-from-remote=full_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')") \
-$BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+$BACKUP_NAME_DIFF >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 exit_code=$?
 
 if [[ $exit_code != 0 ]]; then
-  echo "clickhouse-backup create-remote $BACKUP_NAME FAILED and return $exit_code exit code"
+  echo "clickhouse-backup create_remote $BACKUP_NAME FAILED and return $exit_code exit code"
   exit $exit_code
 fi
 
