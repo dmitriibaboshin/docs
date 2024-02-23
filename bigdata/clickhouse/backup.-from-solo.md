@@ -140,6 +140,13 @@ And incremental
 #!/bin/bash
 BACKUP_NAME_DIFF=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")_$(date -u +%Y-%m-%dT%H-%M-%S)
 
+#Clean old shadow folder hard links
+clickhouse-backup clean
+
+#Clean stuck and broken remote backups
+clickhouse-backup clean_remote_broken
+
+#Creta Incremental backup
 clickhouse-backup \
 create_remote \
 --diff-from-remote=full_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')") \
