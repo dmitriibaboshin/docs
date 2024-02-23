@@ -106,10 +106,10 @@ Full backup script
 BACKUP_NAME=week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
 
 #Clean old shadow folder hard links
-clickhouse-backup clean
+clickhouse-backup clean >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Clean stuck and broken remote backups
-clickhouse-backup clean_remote_broken
+clickhouse-backup clean_remote_broken >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Full backup
 clickhouse-backup \
@@ -141,10 +141,10 @@ And incremental
 BACKUP_NAME_DIFF=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")_$(date -u +%Y-%m-%dT%H-%M-%S)
 
 #Clean old shadow folder hard links
-clickhouse-backup clean
+clickhouse-backup clean >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Clean stuck and broken remote backups
-clickhouse-backup clean_remote_broken
+clickhouse-backup clean_remote_broken >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Creta Incremental backup
 clickhouse-backup \
