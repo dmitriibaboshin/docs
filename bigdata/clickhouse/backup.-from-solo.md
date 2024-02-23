@@ -111,22 +111,22 @@ clickhouse-backup clean >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 #Clean stuck and broken remote backups
 clickhouse-backup clean_remote_broken >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
-#Full default backup with schema
+#Full default backup with schema and server configs
 clickhouse-backup \
 create_remote \
-full_$BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+full_$BACKUP_NAME --configs >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
-#Server configs backup
-clickhouse-backup \
-create_remote \
-configs_$BACKUP_NAME --configs-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
-
-#Server schema backup
+#Server schema backup separate
 clickhouse-backup \
 create_remote \
 schema_$BACKUP_NAME --schema >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
-#RBAC rights backup (might be empty if default)
+#Server configs backup. Bug. Configs can't be backed up separetely for now.
+#clickhouse-backup \
+#create_remote \
+#configs_$BACKUP_NAME --configs-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
+#RBAC rights backup (might be empty with error if default)
 clickhouse-backup \
 create_remote \
 rbac_$BACKUP_NAME --rbac-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
