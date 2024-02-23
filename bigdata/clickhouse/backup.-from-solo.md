@@ -105,6 +105,12 @@ Full backup script
 #!/bin/bash
 BACKUP_NAME=week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")
 
+#Clean old shadow folder hard links
+clickhouse-backup clean
+
+#Clean stuck and broken remote backups
+clickhouse-backup clean_remote_broken
+
 #Full backup
 clickhouse-backup \
 create_remote \
