@@ -165,24 +165,24 @@ Now create crontab like this&#x20;
 
 ```bash
 #Full backup
-0 0 * 1 * /usr/bin/local/full_week_1.sh
+0 0 * 1 * /usr/local/bin/full_week_1.sh
 #Incremental backup
-0 0 * 2-7 * /usr/bin/local/incremental_week_1.sh
+0 0 * 2-7 * /usr/local/bin/incremental_week_1.sh
 
 #Full backup
-0 0 * 8 * /usr/bin/local/full_week_2.sh
+0 0 * 8 * /usr/local/bin/full_week_2.sh
 #Incremental backup
-0 0 * 9-14 * /usr/bin/local/incremental_week_2.sh
+0 0 * 9-14 * /usr/local/bin/incremental_week_2.sh
 
 #Full backup
-0 0 * 15 * /usr/bin/local/full_week_3.sh
+0 0 * 15 * /usr/local/bin/full_week_3.sh
 #Incremental backup
-0 0 * 16-21 * /usr/bin/local/incremental_week_3.sh
+0 0 * 16-21 * /usr/local/bin/incremental_week_3.sh
 
 #Full backup last weeks
-0 0 * 22 * /usr/bin/local/full_week_4.sh
+0 0 * 22 * /usr/local/bin/full_week_4.sh
 #Incremental backup
-0 0 * 23-31 * /usr/bin/local/incremental_week_4.sh
+0 0 * 23-31 * /usr/local/bin/incremental_week_4.sh
 ```
 
 Change week number in script accordingly
