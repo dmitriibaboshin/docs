@@ -111,20 +111,25 @@ clickhouse-backup clean >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 #Clean stuck and broken remote backups
 clickhouse-backup clean_remote_broken >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
-#Full backup
+#Full default backup with schema
 clickhouse-backup \
 create_remote \
 full_$BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
-#RBAC rights backup (might be empty if default)
-clickhouse-backup \
-create_remote \
-rbac_$BACKUP_NAME --rbac >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
-
 #Server configs backup
 clickhouse-backup \
 create_remote \
-config_$BACKUP_NAME --config >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+configs_$BACKUP_NAME --configs-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
+#Server schema backup
+clickhouse-backup \
+create_remote \
+schema_$BACKUP_NAME --schema >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
+#RBAC rights backup (might be empty if default)
+clickhouse-backup \
+create_remote \
+rbac_$BACKUP_NAME --rbac-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 exit_code=$?
 
