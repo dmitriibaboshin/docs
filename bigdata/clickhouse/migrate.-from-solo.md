@@ -133,3 +133,41 @@ INSERT INTO default.opensky SETTINGS receive_timeout=900 SELECT * FROM remote('s
 ```
 
 Clickhouse will continue to download data if connection is restored in this time period.
+
+#### Method 2. Export Import
+
+Another version-independent way is to export table data and schema and import them into the target system with some schema editing if needed.&#x20;
+
+First we will export data.
+
+```bash
+#Export non zipped, much faster export, much bigger file size
+clickhouse client -q "SELECT * FROM default.opensky" > default_opensky.tsv
+
+#Or for progress bar, do it inside client connection
+SELECT * FROM default.opensky INTO OUTFILE 'default_opensky.tsv'
+
+#Gzip on the fly, MUCH slower process
+clickhouse client -q "SELECT * FROM default.opensky" | gzip > default_opensky.tsv.gzip
+
+#Or with pigz also if you have it
+clickhouse client -q "SELECT * FROM default.opensky" | pigz > default_opensky.tsv.gzip
+```
+
+You can see the size difference
+
+<figure><img src="../../.gitbook/assets/image (11).png" alt=""><figcaption></figcaption></figure>
+
+Now you should export corresponding schema for each table you need
+
+```bash
+#Export from system table
+clickhouse-client -q "select create_table_query from system.tables where name='opensky'" > default_opensky.sql
+
+#Or, you can export from show fake query with new lines (not usable without editing)
+clickhouse-client -q "SHOW CREATE TABLE default.opensky" > default_opensky.sql
+
+```
+
+Do not forget to edit this sql files, change you destination db and engine if needed!
+
