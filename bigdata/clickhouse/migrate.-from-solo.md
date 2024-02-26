@@ -171,3 +171,16 @@ clickhouse-client -q "SHOW CREATE TABLE default.opensky" > default_opensky.sql
 
 Do not forget to edit this sql files, change you destination db and engine if needed!
 
+Now import. Create schema and upload data (don't forget to create db beforehand)
+
+```bash
+#Crete table
+cat default_opensky.sql | clickhouse client
+
+#Upload data
+zcat default_opensky.tsv.gzip | clickhouse client -q "INSERT INTO default.opensky FORMAT TabSeparated"
+```
+
+That's it. You can see table being imported.
+
+<figure><img src="../../.gitbook/assets/image (12).png" alt=""><figcaption></figcaption></figure>
