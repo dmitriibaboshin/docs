@@ -2,11 +2,11 @@
 
 Right now there are several methods to backup clickhouse.
 
-The most tested is Altinity clickhouse-backup. It is not official project, but most tested and with best functionality on the time of writing.
+The most tested is Altinity **clickhouse-backup**. It is not official project, but most tested and has most functionality on the time of writing.
 
-Other options are native Backup (backups only data, not acl and configs) rsync copy with manual ALTER FREEZE.
+Other runtime options are native CH Backup command (backups only data, no RBAC and configs) and rsync copy with manual ALTER FREEZE.
 
-For easy incremental backups with clickhouse-backup you'll need external S3 storage.&#x20;
+For easy incremental backups with clickhouse-backup you'll need external S3 storage.  Incremental backups created using name comparison of parts folders.
 
 If you want to use local storage with incremental backups you'll have to use additional tools like restic, kopia and pair them with clickhouse-backup.&#x20;
 
@@ -97,9 +97,9 @@ You can delete either or set limits in clickhouse config. 0 is unlim
     backups_to_keep_remote: 31
 ```
 
-Now let's create cron jobs for full backups and incremental.&#x20;
+Now let's create cron jobs for full backups and incremental. One set each week of the month.
 
-Full backup script
+Full backup script for week 1. Make same for 2-4.
 
 ```bash
 #!/bin/bash
