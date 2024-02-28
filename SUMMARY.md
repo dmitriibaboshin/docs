@@ -19,3 +19,4 @@
     * [Cluster. Shards + Replicas](bigdata/clickhouse/cluster.-shards-+-replicas.md)
     * [Migrate. From Solo](bigdata/clickhouse/migrate.-from-solo.md)
     * [Backup. From Solo](bigdata/clickhouse/backup.-from-solo.md)
+    * [Backup. From Cluster](bigdata/clickhouse/backup.-from-cluster.md)
