@@ -111,15 +111,21 @@ clickhouse-backup clean >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 #Clean stuck and broken remote backups
 clickhouse-backup clean_remote_broken >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
+#Remove old local backup
+clickhouse-backup \
+delete local \
+full_$BACKUP_NAME >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
 #Full default backup with schema and server configs
 clickhouse-backup \
 create_remote \
 full_$BACKUP_NAME --configs >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
+#All below is not working correctly
 #Server schema backup separate
-clickhouse-backup \
-create_remote \
-schema_$BACKUP_NAME --schema >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+#clickhouse-backup \
+#create_remote \
+#schema_$BACKUP_NAME --schema >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Server configs backup. Bug. Configs can't be backed up separetely for now.
 #clickhouse-backup \
@@ -127,9 +133,9 @@ schema_$BACKUP_NAME --schema >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 #configs_$BACKUP_NAME --configs-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #RBAC rights backup (might be empty with error if default)
-clickhouse-backup \
-create_remote \
-rbac_$BACKUP_NAME --rbac-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+#clickhouse-backup \
+#create_remote \
+#rbac_$BACKUP_NAME --rbac-only >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 exit_code=$?
 
@@ -143,13 +149,20 @@ And incremental
 
 ```bash
 #!/bin/bash
-BACKUP_NAME_DIFF=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")_$(date -u +%Y-%m-%dT%H-%M-%S)
+BACKUP_NAME_DIFF=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")_$(date +%Y_%m_%d)
+BACKUP_NAME_DIFF_MINUS_DAY=incremental_week_1_shard_$(clickhouse-client -q "SELECT getMacro('shard')")_$(date +%Y_%m_%d -d "1 day ago"
+)
 
 #Clean old shadow folder hard links
 clickhouse-backup clean >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Clean stuck and broken remote backups
 clickhouse-backup clean_remote_broken >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
+
+#Delete local previous Incremental backup
+clickhouse-backup \
+delete local \
+$BACKUP_NAME_DIFF_MINUS_DAY >> /data/clickhouse/logs/clickhouse-backup.log 2>&1
 
 #Creta Incremental backup
 clickhouse-backup \
